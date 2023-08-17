@@ -1,0 +1,10 @@
+.venv
+*.log
+
+*.pyc
+
+*.py~Stashed changes
+
+*.py~Updated upstream
+
+*.env
