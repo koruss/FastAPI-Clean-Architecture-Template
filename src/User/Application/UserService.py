@@ -21,9 +21,9 @@ class UserService:
             if self.verbose:
                 self.logger.log_info("APP: "+"User found in the database")
 
-        except UserNotFoundException:
+        except Exception as error:
             if self.verbose:
                 self.logger.log_error("APP: " +"User not found")
-            return False
+            raise error
             
         return user.login(imputDTO.email,imputDTO.password)

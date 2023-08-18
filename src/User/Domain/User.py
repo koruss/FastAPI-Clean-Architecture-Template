@@ -4,7 +4,7 @@ from pydantic.networks import EmailStr
 class User:
     '''User domain model'''
     def __init__(
-            self, id: str, name: str, email: EmailStr, password: str
+            self, id: str , name: str, email: EmailStr, password: str
     ) -> None:
         self._name = name
         self._email = email
@@ -30,9 +30,13 @@ class User:
         return self._password
 
     @property
-    def _id(self) -> str:
+    def id(self) -> str:
         '''Return the id of the user'''
         return self._id
+    
+    # @_id.setter
+    # def _id(self, id: str) -> None:
+    #     self._id = id
 
     def login(self, email: EmailStr, password: str) -> bool:
         '''Return True if the credentials are correct, False otherwise'''

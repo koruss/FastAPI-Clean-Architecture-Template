@@ -64,5 +64,7 @@ if __name__ == "__main__":
         ADDRESS = "localhost"
     if PORT is None:
         PORT = 3400
+    else:
+        PORT = int(PORT)
     print(ADDRESS)
     uvicorn.run(app, host=ADDRESS, port=PORT) 

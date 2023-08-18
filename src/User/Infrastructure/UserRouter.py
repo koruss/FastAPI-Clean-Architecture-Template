@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 
 from src.User.Application.UserDTO import CredentialsDTO
 from src.User.Application.UserService import UserService
+from src.User.Domain.UserErrors import UserNotFoundException
 from src.shared.ILogger import ILogger
 
 verbose = os.getenv('VERBOSE')
@@ -31,17 +32,19 @@ Args:
     service (_type_, optional): _description_. Defaults to Depends(lambda:di[UserService]).
 
 Returns:
-    JSONResponse: _description_
+    JSONResponse: 
     '''
 @UserRouter.post("/login")
-
 def login(
     request:CredentialsDTO,
     service:UserService = Depends(lambda:di[UserService]),
     logger:ILogger = Depends(lambda:di[ILogger])
     )-> JSONResponse:
+    try:
+        return service.login(request)
 
-    message = "Success" if service.login(request) else "Failure"
-    if verbose:
-        logger.log_info("ROUTER: "+ message)
-    return JSONResponse(status_code=200, content={"message": message})
+    except UserNotFoundException as error:
+        if verbose:
+            logger.log_error("ROUTER: "+ str(error))
+        return JSONResponse(status_code=404, content=str(error))
+
